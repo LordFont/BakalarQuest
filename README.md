@@ -1,0 +1,1 @@
+BakalarQuest je MUD koji igraèa stavlja u ulogu brucoša na FOI-u, te mora preživjeti akademski kaos i steæi titulu tzv. "bakalara", odnosno Baccalareusa.
