@@ -4,10 +4,13 @@
 #include <cstring>
 #include <netdb.h>
 #include <unistd.h>
+#include <thread>
 #include <iostream>
 using namespace std;
 
-void komunikacija(int veza, char buffer[], int buff_velicina){
+int izlaz = 0;
+
+void komunikacija(int veza, char buffer[], int buff_velicina, int socket){
       //sadrzaj iz paketa koji ce se nalaziti u bufferu se sprema ovdje
       char poruka[10000];
       //varijabla za recv
@@ -27,9 +30,22 @@ void komunikacija(int veza, char buffer[], int buff_velicina){
 	//resetiranje buffera
 	memset(buffer,0,buff_velicina);
 	//if za prekidanje veze
-	if(!strcmp(poruka, "/exit")) break;
+	if(!strcmp(poruka, "/exit")){
+	  socket = send(veza, "Veza se prekida \n",strlen("Veza se prekida \n"), 0);
+	  close(veza);
+	  cout<<"Veza je prekinuta"<<endl;
+	  break;
+	};
 	//if za gasenje servera
-	if(!strcmp(poruka, "/server_shutdown"))exit(0);
+	if(!strcmp(poruka, "/server_shutdown")){
+	  izlaz = 1;
+	  exit(0);
+	};
+	//if za gasenje servera
+	if(!strcmp(poruka, "/spojen?")){
+	  cout<<"Klijent pita ako je spojen."<<endl;
+	  socket = send(veza, "Spojen! \n",strlen("Spojen! \n"), 0);
+	}
       }
 }
 
@@ -74,11 +90,10 @@ int main(){
     //odgovor da smo prihvatili vezu
     povratna = send(opisnik_klijent, "Spojeni ste s serverom \n", strlen("Spojeni ste s serverom \n"), 0);
     //fukcija koja radi na samoj komunikaciji izmedju server i klijenta
-    komunikacija(opisnik_klijent,buff,sizeof(buff),poruka);
-    //prekidanje veze
-    povratna = send(povratna, "Veza se prekida \n",strlen("Veza se prekida \n"), 0);
-    close(opisnik_klijent);
-    cout<<"Veza je prekinuta"<<endl;
+    thread proces(komunikacija,opisnik_klijent,buff,sizeof(buff),povratna);
+    proces.detach();
+    if(izlaz == 1) break;
   }
+  
   return 0;
 }
