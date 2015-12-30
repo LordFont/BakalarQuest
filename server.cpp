@@ -52,6 +52,17 @@ void komunikacija(int veza, char buffer[], int buff_velicina, int socket, char c
       //stavljanje ip adrese u nesto koristljivo
       char ip_adress[20];
       strcpy(ip_adress, u_adresa);
+      cout<<ip_adress<<": "<<strlen(ip_adress)<<endl;
+      for(int i = 0; i<=strlen(ip_adress);i++){
+	if(i == strlen(ip_adress)){
+	  cout<<i<<endl;
+	  ip_adress[i] = ':';
+	  ip_adress[i+1] = ' ';
+	  ip_adress[i+2] = '\0';
+	  break;
+	}
+      }
+      cout<<ip_adress<<": "<<strlen(ip_adress)<<endl;
       //var j sluzi za prepoznavanje same poruke i komande
       int j = 0;
       //polje u kojem se sprema komanda
@@ -109,9 +120,6 @@ void komunikacija(int veza, char buffer[], int buff_velicina, int socket, char c
 	}
 	//if za slanje poruke svima koji su spojeni
 	if(!strcmp(commanda, "/say")){
-	    ip_adress[9] = ':';
-	    ip_adress[10] = ' ';
-	    ip_adress[11] = '\0';
 	    mtx.lock();
 	    for(int i = 0; i<k; i++){
 	      socket = send(niz_klijenata[i], ip_adress,strlen(ip_adress), 0);
@@ -151,7 +159,7 @@ int main(){
   povratna = getaddrinfo("127.0.0.1", "8880", &upute, &rezultat);//Postavlja se vrijednosti vezane uz server
   
   opisnik = socket(rezultat->ai_family, rezultat->ai_socktype, rezultat->ai_protocol);//postavlja se socket
-  povratna = bind(opisnik, rezultat->ai_addr, rezultat->ai_addrlen);//povezuje se socket s ovim programom
+  povratna = ::bind(opisnik, rezultat->ai_addr, rezultat->ai_addrlen);//povezuje se socket s ovim programom
   
   //oslobadja informacije o adresama
   freeaddrinfo(rezultat);
