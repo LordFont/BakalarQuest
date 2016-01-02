@@ -2,28 +2,29 @@
 #include <iostream>
 
 class Soba {
+	// Podaci o svim sobama ce se cuvati u polju u programu
 	protected:
-		short id;
+		short id; // id sobe jest istovremeno indeks elementa polja u kojem se cuvaju u RAM-u, -1 znaci da ne postoji
+		wchar_t kopis[50];
 		wchar_t opis[1000]; // upitno koliko ce se koristiti s obzirom da nemamo vremena izmisljati opise za sve sobe
-		Soba *z, *j, *i, *s; // zapadno, juzno, istocno, sjeverno - poveznice sa spojenim sobama, u slucaju da nema sobe na toj strani, pokazivac je vrijednosti NULL
+		short s, i, j, z, d, g; // zapadno, juzno, istocno, sjeverno, dolje, gore - poveznice sa spojenim sobama, oznacava indeks sobe, u slucaju da nema sobe na toj strani, vrijednost je -1
 	public:
 		void init()
 		{
-			this->id = 0;
+			this->id = -1;
+			this->kopis[0] = '\0';
 			this->opis[0] = '\0';
-			this->z = NULL;
-			this->j = NULL;
-			this->i = NULL;
-			this->s = NULL;
+			this->s = -1;
+			this->i = -1;
+			this->j = -1;
+			this->z = -1;
+			this->g = -1;
+			this->d = -1;
 		}
 		void Opisi()
 		{
 			// PARSER CE, KADA DOBIJE ZAPOVIJED 'GLEDAJ', POTEGNUTI PROCEDURU 'OPISI' SOBE U KOJOJ SE IGRAC KOJI JE IZDAO NAREDBU NALAZI
 			std::wcout << this->opis << std::endl;
-		}
-		short getID(Soba *x)
-		{
-			return x->id;
 		}
 		bool ucitaj(short id, wchar_t opis, Soba *izlazi[4])
 		{
@@ -40,8 +41,14 @@ class Soba {
 };
 
 class Igrac {
+	// Podaci o spojenim igracima bi se isto mogli drzati u polju u programu
 	protected:
 		short id;
+		/*
+		struct postavke{
+			bool kopis;
+		};
+		*/
 		short pozicija; // ID sobe u kojoj se nalazi igrac
 		wchar_t nick[50];
 	public:
@@ -60,10 +67,23 @@ class Igrac {
 			this->pozicija = bazaPoz.pozicija;
 			*/
 		}
-		bool potez(short s) 
+		bool potez(char s) 
 		{
+		// Poziva text parser i proslijeðuje zapovijed
 			switch (s)
 			{
+				case 'z':
+					break;
+				case 'j':
+					break;
+				case 'i':
+					break;
+				case 's':
+					break;
+				case 'd':
+					break;
+				case 'g':
+					break;
 				default: break;
 			}
 		}
