@@ -1,0 +1,14 @@
+Tablice:
+    registrirani korisnici
+    	username
+    	password
+    	
+    sobe
+    	id
+    	opis
+    	s, i, j, z, d, g (vanjski ključevi koji mogu, ali ne moraju, kazati na id drugih soba)    	
+    	
+    opisnik korisničkih likova (trenutna soba, i ostali postojeći atributi)
+	nickname
+	username_vk (da znamo kojem useru pripada)
+    	pozicija (soba_id)
