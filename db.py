@@ -1,8 +1,12 @@
 import mysql.connector as db
+from BakalarQuestStrukture import Igrac, Soba
 
 def connect_db():
+    """
+    U trenutnoj verziji (0.1) vraca popis soba
+    """
     db_name = 'BakalarQuest'
-    con = db.connect(user='root', password='881002')
+    con = db.connect(user='root', password='insomnia76')
     cur = con.cursor()
 
     # Kreiraj bazu
